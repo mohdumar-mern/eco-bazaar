@@ -1,6 +1,6 @@
 
 import './App.scss'
-import HomePage from './Components/Home/HomePage'
+import HomePage from './pages/Home/HomePage'
 
 function App() {
 
