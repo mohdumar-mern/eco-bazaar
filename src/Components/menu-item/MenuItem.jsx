@@ -1,10 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
+import {useNavigate} from 'react-router-dom'
 
 import "./MenuItem.scss";
-const MenuItem = ({ title, imageUrl, size }) => {
+const MenuItem = ({ title, imageUrl, size, linkUrl }) => {
+const navigate = useNavigate();
+const onNavigateHandler = () => {
+    navigate(linkUrl)
+}
   return (
-    <div  className={`${size} menu-item`}>
+    <div  className={`${size} menu-item`} onClick={onNavigateHandler}> 
       <div className="background-image" style={{ backgroundImage: `url(${imageUrl})` }} />
       <div className="content">
         <h1 className="title">{title?.toUpperCase()}</h1>
