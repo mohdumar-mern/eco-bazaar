@@ -6,7 +6,7 @@ import { getStorage } from "firebase/storage"; // For Storage (optional)
 
 
 const config = {
-    apiKey: "AIzaSyBprUt9INmeYXUP_VMEvvnmm5XUA-B1m80",
+    apiKey: "AIzaSyBprUt9INmeYXUP_VMEvvnmm5XUA-B1m80", 
     authDomain: "eco-bazaar-db.firebaseapp.com",
     projectId: "eco-bazaar-db",
     storageBucket: "eco-bazaar-db.firebasestorage.app",
