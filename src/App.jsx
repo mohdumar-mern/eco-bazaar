@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import HomePage from "./pages/Home/HomePage";
 import ShopPage from "./pages/shop-page/ShopPage";
@@ -16,26 +16,26 @@ import "./App.scss";
 
 function App() {
   const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         const userRef = doc(fireStore, "users", user.uid);
         const userSnap = await getDoc(userRef);
-  
+
         if (userSnap.exists()) {
           let userData = userSnap.data();
-  
+
           // ✅ Convert Firestore Timestamp to serializable format
-          if (userData.createdAt && userData.createdAt.toDate) {
+          if (userData.createdAt?.toDate) {
             userData = {
               ...userData,
-              createdAt: userData.createdAt.toDate().toISOString(), // Convert to string format
+              createdAt: userData.createdAt.toDate().toISOString(),
             };
           }
-  
+
           dispatch(setCurrentUser(userData));
-          // console.log("User fetched from Firestore:", userData);
         } else {
           console.log("User does not exist in Firestore.");
           dispatch(setCurrentUser(null));
@@ -45,17 +45,20 @@ function App() {
         console.log("No user signed in.");
       }
     });
-  
+
     return () => unsubscribe();
   }, [dispatch]);
-  
+
   return (
     <Router>
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/shop" element={<ShopPage />} />
-        <Route path="/signin" element={<SignUpAndSignIn />} />
+        <Route
+          path="/signin"
+          element={currentUser ? <Navigate to="/" /> : <SignUpAndSignIn />}
+        />
       </Routes>
     </Router>
   );
