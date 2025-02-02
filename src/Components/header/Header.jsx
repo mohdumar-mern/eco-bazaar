@@ -1,9 +1,11 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import { useSelector} from 'react-redux'
 
 import './Header.scss'
 import { auth } from '../../firebase/fireBase'
-const Header = ({currentUser}) => {
+const Header = () => {
+  const {currentUser} = useSelector((state) => state.user)
   return (
     <div className='header '>
       <Link className="logo-container  " to={'/'}>

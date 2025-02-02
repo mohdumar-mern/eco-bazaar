@@ -62,7 +62,7 @@ const SignIn = () => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const { user } = userCredential;
-      console.log("User signed in:", user);
+      // console.log("User signed in:", user);
 
       // Reference to Firestore user document
       const userRef = doc(fireStore, "users", user.uid);

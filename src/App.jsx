@@ -1,49 +1,57 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import "./App.scss";
+import { useDispatch } from "react-redux";
+
 import HomePage from "./pages/Home/HomePage";
 import ShopPage from "./pages/shop-page/ShopPage";
 import SignUpAndSignIn from "./pages/SignIn and SignUp/SignUpAndSignIn";
-
 import Header from "./Components/header/Header";
+import { setCurrentUser } from "./features/user/UserSlice";
 
 import { auth, fireStore } from "./firebase/fireBase";
 import { doc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
+import "./App.scss";
+
 function App() {
-  const [currentUser, setCurrentUser] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    // Set up an authentication state observer
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        // Reference to user document in Firestore
         const userRef = doc(fireStore, "users", user.uid);
         const userSnap = await getDoc(userRef);
-
+  
         if (userSnap.exists()) {
-          const userData = userSnap.data();
-          setCurrentUser(userData); // Store user details in state
-          console.log("User fetched from Firestore:", userData);
+          let userData = userSnap.data();
+  
+          // ✅ Convert Firestore Timestamp to serializable format
+          if (userData.createdAt && userData.createdAt.toDate) {
+            userData = {
+              ...userData,
+              createdAt: userData.createdAt.toDate().toISOString(), // Convert to string format
+            };
+          }
+  
+          dispatch(setCurrentUser(userData));
+          // console.log("User fetched from Firestore:", userData);
         } else {
           console.log("User does not exist in Firestore.");
-          setCurrentUser(null);
+          dispatch(setCurrentUser(null));
         }
       } else {
-        // User is signed out
-        setCurrentUser(null);
+        dispatch(setCurrentUser(null));
         console.log("No user signed in.");
       }
     });
-
-    // Cleanup the observer when the component unmounts
+  
     return () => unsubscribe();
-  }, []);
-
+  }, [dispatch]);
+  
   return (
     <Router>
-      <Header currentUser={currentUser} />
+      <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/shop" element={<ShopPage />} />
