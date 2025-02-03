@@ -1,13 +1,16 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import { useSelector} from 'react-redux'
-import './Header.scss'
 import { auth } from '../../firebase/fireBase'
 import CartIcon from '../cart-icon/CartIcon'
 import CartDropdown from '../cart-dropdown/CartDropdown'
+
+import { selectCurrentUser } from '../../features/user/UserSlice'
+import { showCart } from '../../features/cart/CartSlice'
+import './Header.scss'
 const Header = () => {
-  const {currentUser} = useSelector((state) => state.user)
-  const {show} = useSelector(state => state.cart)
+  const currentUser = useSelector(selectCurrentUser)
+  const show = useSelector(showCart)
  
   return (
     <div className='header '>

@@ -1,33 +1,45 @@
 import React, { useMemo } from "react";
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import Button from "../custom button/Button";
 import CartItem from "../cart-item/CartItem";
-import { totalCartItems } from "../../features/cart/CartSlice";
+import { totalCartItems, hideCart } from "../../features/cart/CartSlice";
 
 import "./CartDropdown.scss";
 
 const CartDropdown = () => {
-  // ✅ Memoize cartItems to avoid unnecessary computations
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // Memoize cartItems to avoid unnecessary computations
   const cartItems = useSelector(totalCartItems);
 
-  // ✅ Memoize mapped cart items to prevent re-renders if cartItems doesn't change
+  // Memoize rendered cart items to avoid unnecessary re-mapping
   const renderedCartItems = useMemo(() => {
     return cartItems.map((cartItem) => (
       <CartItem key={cartItem.id} item={cartItem} />
     ));
-  }, [cartItems]);
+  }, [cartItems]); // Only recompute if cartItems change
+
+  // Memoize the 'GO TO CHECKOUT' click handler to avoid re-creating it on every render
+  const handleCheckoutClick = () => {
+    dispatch(hideCart()); // Dispatch to hide cart after navigating
+    navigate("/checkout");
+  };
 
   return (
     <div className="cart-dropdown">
       <div className="cart-items">
-        {cartItems.length > 0 ? renderedCartItems : (
+        {cartItems.length > 0 ? (
+          renderedCartItems
+        ) : (
           <span className="empty-message">Your cart is empty</span>
         )}
       </div>
-      <Button>GO TO CHECKOUT</Button>
+      <Button onClick={handleCheckoutClick}>GO TO CHECKOUT</Button>
     </div>
   );
 };
 
-export default React.memo(CartDropdown); // ✅ Prevent unnecessary re-renders if props don't change
- 
+// Memoize CartDropdown to prevent unnecessary re-renders
+export default React.memo(CartDropdown);

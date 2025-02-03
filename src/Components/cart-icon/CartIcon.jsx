@@ -1,13 +1,13 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleCartShow } from "../../features/cart/CartSlice";
-import { totalQuantites } from "../../features/cart/CartSlice";
+import { totalQuantities } from "../../features/cart/CartSlice";
 import { CiShoppingCart } from "react-icons/ci";
 
 import "./CartIcon.scss";
 
 const CartIcon = () => {
-  const totalQuantity = useSelector(totalQuantites)
+  const totalQuantity = useSelector(totalQuantities)
   const dispatch = useDispatch()
   const toggleCart = () =>{
     dispatch(toggleCartShow())
