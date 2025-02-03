@@ -1,11 +1,14 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import { useSelector} from 'react-redux'
-
 import './Header.scss'
 import { auth } from '../../firebase/fireBase'
+import CartIcon from '../cart-icon/CartIcon'
+import CartDropdown from '../cart-dropdown/CartDropdown'
 const Header = () => {
   const {currentUser} = useSelector((state) => state.user)
+  const {show} = useSelector(state => state.cart)
+  console.log(show)
   return (
     <div className='header '>
       <Link className="logo-container  " to={'/'}>
@@ -21,7 +24,12 @@ const Header = () => {
           :
           <Link className='option' to='/signin'>SIGN IN</Link>
         }
+        <CartIcon />
       </div>
+      {
+        show &&   <CartDropdown />
+      }
+     
     </div>
   )
 }
