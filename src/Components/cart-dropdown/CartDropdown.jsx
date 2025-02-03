@@ -1,28 +1,33 @@
-import React from 'react'
-import {useSelector} from 'react-redux'
-import Button from '../custom button/Button'
+import React, { useMemo } from "react";
+import { useSelector } from "react-redux";
+import Button from "../custom button/Button";
+import CartItem from "../cart-item/CartItem";
+import { totalCartItems } from "../../features/cart/CartSlice";
 
-
-import './CartDropdown.scss'
-import CartItem from '../cart-item/CartItem'
+import "./CartDropdown.scss";
 
 const CartDropdown = () => {
-   const {cartItems} = useSelector( state => state.cart)
-   console.log("cartItems is ", cartItems)
+  // ✅ Memoize cartItems to avoid unnecessary computations
+  const cartItems = useSelector(totalCartItems);
+
+  // ✅ Memoize mapped cart items to prevent re-renders if cartItems doesn't change
+  const renderedCartItems = useMemo(() => {
+    return cartItems.map((cartItem) => (
+      <CartItem key={cartItem.id} item={cartItem} />
+    ));
+  }, [cartItems]);
 
   return (
-    <div className='cart-dropdown' >
-        <div className="cart-items" >
-          {
-            cartItems.map(cartItem => (
-              <CartItem key={cartItem.id} item={cartItem} />
-            ))
-          }
-        </div>
-        <Button >GO TO CHECKOUT</Button>
-      
+    <div className="cart-dropdown">
+      <div className="cart-items">
+        {cartItems.length > 0 ? renderedCartItems : (
+          <span className="empty-message">Your cart is empty</span>
+        )}
+      </div>
+      <Button>GO TO CHECKOUT</Button>
     </div>
-  )
-}
+  );
+};
 
-export default CartDropdown
+export default React.memo(CartDropdown); // ✅ Prevent unnecessary re-renders if props don't change
+ 

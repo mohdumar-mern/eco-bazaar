@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useCallback} from "react";
 import { useDispatch } from "react-redux";
 import { addItemToCart } from "../../features/cart/CartSlice";
 import "./CollectionItem.scss";
@@ -7,10 +7,10 @@ const CollectionItem = ({ item }) => {
   const { id, name, price, imageUrl } = item;
   const dispatch = useDispatch();
 
-  const addToCartHandler = (item) => {
-    console.log("items is ", item);
+  const addToCartHandler = useCallback(() => {
+    console.log("item is", item);
     dispatch(addItemToCart(item));
-  };
+  }, [dispatch, item]);
   return (
     <div className="collection-item" key={id}>
       <div className="image" style={{ backgroundImage: `url(${imageUrl})` }} />
@@ -26,4 +26,4 @@ const CollectionItem = ({ item }) => {
   );
 };
 
-export default CollectionItem;
+export default React.memo(CollectionItem);

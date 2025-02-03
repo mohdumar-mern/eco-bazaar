@@ -8,7 +8,7 @@ import CartDropdown from '../cart-dropdown/CartDropdown'
 const Header = () => {
   const {currentUser} = useSelector((state) => state.user)
   const {show} = useSelector(state => state.cart)
-  console.log(show)
+ 
   return (
     <div className='header '>
       <Link className="logo-container  " to={'/'}>
