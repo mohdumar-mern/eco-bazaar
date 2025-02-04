@@ -64,11 +64,15 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/shop" element={<ShopPage />} />
+        
+        {/* ✅ Nested Routing for ShopPage */}
+        <Route path="/shop/*" element={<ShopPage />}>
+        </Route>
+
         <Route path="/checkout" element={<CheckoutPage />} />
-        <Route
-          path="/signin"
-          element={currentUser ? <Navigate to="/" /> : <SignUpAndSignIn />}
+        <Route 
+          path="/signin" 
+          element={currentUser ? <Navigate to="/" replace /> : <SignUpAndSignIn />} 
         />
       </Routes>
     </Router>

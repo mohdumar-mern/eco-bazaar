@@ -1,16 +1,16 @@
-import { useSelector } from "react-redux";
-
-import { SHOP_DATA } from "../../features/shop/ShopSlice";
+import { Route, Routes } from "react-router-dom";
+import CollectionOverview from "../../Components/collection-overview/CollectionOverview";
+import CollectionPage from "../collection/CollectionPage";
 
 import "./ShopPage.scss";
-import PreviewCollection from "../../Components/preview-collection/PreviewCollection";
+
 const ShopPage = () => {
-  const collections = useSelector(SHOP_DATA || []);
   return (
     <div className="shop-page">
-      {collections.map(({ id, ...otherCollectionProps }) => (
-        <PreviewCollection key={id} {...otherCollectionProps} />
-      ))}
+      <Routes>
+        <Route index element={<CollectionOverview />} />
+        <Route path=":collectionId" element={<CollectionPage />} />
+      </Routes>
     </div>
   );
 };

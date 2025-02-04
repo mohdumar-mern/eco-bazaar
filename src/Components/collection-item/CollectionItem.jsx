@@ -8,7 +8,6 @@ const CollectionItem = ({ item }) => {
   const dispatch = useDispatch();
 
   const addToCartHandler = useCallback(() => {
-    console.log("item is", item);
     dispatch(addItemToCart(item));
   }, [dispatch, item]);
   return (
