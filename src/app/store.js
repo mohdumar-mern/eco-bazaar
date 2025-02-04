@@ -1,17 +1,38 @@
-import { configureStore } from "@reduxjs/toolkit";
-import logger from "redux-logger"; // Middleware for debugging
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import logger from "redux-logger"; 
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage"; // Uses localStorage for web
 
 import userReducer from "../features/user/UserSlice";
-import cartReducer from '../features/cart/CartSlice'
+import cartReducer from "../features/cart/CartSlice";
+import directoryReducer from "../features/directory-menu/DirectorySlice";
+import shopReducer from "../features/shop/ShopSlice"
 
-const store = configureStore({
-  reducer: {
-    user: userReducer,
-    cart: cartReducer
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(logger), // Adding logger for better debugging
-//   devTools: process.env.NODE_ENV !== "production", // Enables Redux DevTools only in development mode
+// Persist configuration
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["cart"], // Only persist the 'cart' reducer
+};
+
+// Combine reducers
+const rootReducer = combineReducers({
+  user: userReducer,  // User reducer (NOT persisted)
+  cart: cartReducer,  // Cart reducer (Persisted)
+  directory: directoryReducer,  // Directory reducer (NOT persisted)
+  shop: shopReducer,  // Shop reducer (NOT persisted)
 });
 
-export default store;
+// Wrap the rootReducer with persistReducer
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+// Create the Redux store
+const store = configureStore({
+  reducer: persistedReducer, 
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }).concat(logger),
+});
+
+// Create the persistor
+const persistor = persistStore(store);
+
+export { store, persistor };
