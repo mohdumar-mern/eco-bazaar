@@ -4,6 +4,7 @@ import { useSelector} from 'react-redux'
 import { auth } from '../../firebase/fireBase'
 import CartIcon from '../cart-icon/CartIcon'
 import CartDropdown from '../cart-dropdown/CartDropdown'
+import logo from "../../assets/logo.png"
 
 import { selectCurrentUser } from '../../features/user/UserSlice'
 import { showCart } from '../../features/cart/CartSlice'
@@ -15,7 +16,9 @@ const Header = () => {
   return (
     <div className='header '>
       <Link className="logo-container  " to={'/'}>
-        <h2 className={`text-3xl  font-bold text-shadow  text-shadow`} >ECO BAZAAR</h2>
+        {/* <h2 className={`text-3xl  font-bold text-shadow  text-shadow`} >ECO BAZAAR</h2>
+         */}
+         <img src={logo} alt="ECO BAZAAR" title='Eco Bazaar' />
       </Link>
 
       <div className="options">

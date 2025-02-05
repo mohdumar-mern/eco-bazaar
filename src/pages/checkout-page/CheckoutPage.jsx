@@ -1,10 +1,10 @@
-import React from 'react'
 import { useSelector } from 'react-redux'
 
 import { totalCartItems, totalQuantities, totalPrice } from '../../features/cart/CartSlice'
 
 import './CheckoutPage.scss'
 import CheckoutItem from '../../Components/checkout-item/CheckoutItem'
+import StripeCheckoutButton from '../../Components/stripe-button/StripeButton'
  
 const CheckoutPage = () => {
     const cartItems = useSelector(totalCartItems)
@@ -37,6 +37,8 @@ const CheckoutPage = () => {
         }
         <div className="total">
             <span>Total: ${total}</span>
+           
+            <StripeCheckoutButton price={total} />
         </div>
       </div>
   )

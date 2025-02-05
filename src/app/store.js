@@ -6,7 +6,7 @@ import storage from "redux-persist/lib/storage"; // Uses localStorage for web
 import userReducer from "../features/user/UserSlice";
 import cartReducer from "../features/cart/CartSlice";
 import directoryReducer from "../features/directory-menu/DirectorySlice";
-import shopReducer from "../features/shop/ShopSlice"
+import shopReducer from "../features/shop/ShopSlice";
 
 // Persist configuration
 const persistConfig = {
@@ -29,7 +29,16 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 // Create the Redux store
 const store = configureStore({
   reducer: persistedReducer, 
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }).concat(logger),
+  middleware: (getDefaultMiddleware) => {
+    const middlewares = getDefaultMiddleware({ serializableCheck: false });
+    
+    // Conditionally add logger middleware based on the environment
+    if (import.meta.env.MODE === "development") {
+      middlewares.push(logger);
+    }
+
+    return middlewares;
+  },
 });
 
 // Create the persistor
