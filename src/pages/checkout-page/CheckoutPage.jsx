@@ -1,47 +1,47 @@
-import { useSelector } from 'react-redux'
+import { useSelector } from "react-redux";
 
-import { totalCartItems, totalQuantities, totalPrice } from '../../features/cart/CartSlice'
+import { totalCartItems, totalPrice } from "../../features/cart/CartSlice";
+import CheckoutItem from "../../Components/checkout-item/CheckoutItem";
+import StripeCheckoutButton from "../../Components/stripe-button/StripeButton";
+import {
+  CheckoutHeaderContainer,
+  CheckoutPageContainer,
+  HeaderBlockContainer,
+  TotalContainer,
+} from "./CheckoutPageStyled";
 
-import './CheckoutPage.scss'
-import CheckoutItem from '../../Components/checkout-item/CheckoutItem'
-import StripeCheckoutButton from '../../Components/stripe-button/StripeButton'
- 
 const CheckoutPage = () => {
-    const cartItems = useSelector(totalCartItems)
-    const totalQuantity = useSelector(totalQuantities)
-    const total = useSelector(totalPrice)
+  const cartItems = useSelector(totalCartItems);
+  const total = useSelector(totalPrice);
   return (
-      <div className='checkout-page'>
-        <div className="checkout-header">
-            <div className="header-block">
-                <span>Product</span>
-            </div>
-            <div className="header-block">
-                <span>Discription</span>
-            </div>
-            <div className="header-block">
-                <span>Quantitiy</span>
-            </div>
-            <div className="header-block">
-                <span>price</span>
-            </div>
-            <div className="header-block">
-                <span>Remove</span>
-            </div>
-            
-        </div>
-        {
-            cartItems.map(cartItem => (
-                <CheckoutItem key={cartItem.id} cartItem={cartItem} />
-            ))
-        }
-        <div className="total">
-            <span>Total: ${total}</span>
-           
-            <StripeCheckoutButton price={total} />
-        </div>
-      </div>
-  )
-}
+    <CheckoutPageContainer>
+      <CheckoutHeaderContainer>
+        <HeaderBlockContainer>
+          <span>Product</span>
+        </HeaderBlockContainer>
+        <HeaderBlockContainer>
+          <span>Discription</span>
+        </HeaderBlockContainer>
+        <HeaderBlockContainer>
+          <span>Quantitiy</span>
+        </HeaderBlockContainer>
+        <HeaderBlockContainer>
+          <span>price</span>
+        </HeaderBlockContainer>
+        <HeaderBlockContainer>
+          <span>Remove</span>
+        </HeaderBlockContainer>
+      </CheckoutHeaderContainer>
+      {cartItems.map((cartItem) => (
+        <CheckoutItem key={cartItem.id} cartItem={cartItem} />
+      ))}
+      <TotalContainer>
+        <span>Total: ${total}</span>
 
-export default CheckoutPage
+        <StripeCheckoutButton price={total} />
+      </TotalContainer>
+    </CheckoutPageContainer>
+  );
+};
+
+export default CheckoutPage;

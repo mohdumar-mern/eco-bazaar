@@ -1,8 +1,16 @@
-import React,{useCallback} from "react";
+import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
+
 import { addItemToCart } from "../../features/cart/CartSlice";
-import "./CollectionItem.scss";
-import Button from "../custom button/Button";
+import {
+  ButtonContainer,
+  CollectionFooterContainer,
+  CollectionItemContainer,
+  ImageContainer,
+  NameContainer,
+  PriceContainer,
+} from "./CollectionItemStyled";
+
 const CollectionItem = ({ item }) => {
   const { id, name, price, imageUrl } = item;
   const dispatch = useDispatch();
@@ -11,17 +19,17 @@ const CollectionItem = ({ item }) => {
     dispatch(addItemToCart(item));
   }, [dispatch, item]);
   return (
-    <div className="collection-item" key={id}>
-      <div className="image" style={{ backgroundImage: `url(${imageUrl})` }} />
+    <CollectionItemContainer key={id}>
+      <ImageContainer style={{ backgroundImage: `url(${imageUrl})` }} />
 
-      <div className="collection-footer">
-        <span className="name">{name}</span>
-        <span className="price">{price}</span>
-      </div>
-      <Button inverted onClick={() => addToCartHandler(item)}>
+      <CollectionFooterContainer>
+        <NameContainer>{name}</NameContainer>
+        <PriceContainer>{price}</PriceContainer>
+      </CollectionFooterContainer>
+      <ButtonContainer inverted onClick={() => addToCartHandler(item)}>
         ADD TO CART
-      </Button>
-    </div>
+      </ButtonContainer>
+    </CollectionItemContainer>
   );
 };
 

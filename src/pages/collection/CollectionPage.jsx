@@ -1,13 +1,16 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { SHOP_DATA } from '../../features/shop/ShopSlice';  // Correct selectors
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import './CollectionPage.scss';
-import CollectionItem from '../../Components/collection-item/CollectionItem';
+import { SHOP_DATA } from "../../features/shop/ShopSlice";
+import CollectionItem from "../../Components/collection-item/CollectionItem";
+import {
+  CollectionPageContainer,
+  ItemsContainer,
+  TitleContainer,
+} from "./CollectionPageStyled";
 
 const CollectionPage = () => {
-  const shopData = useSelector(SHOP_DATA);  // Correct selector for getting shop data
+  const shopData = useSelector(SHOP_DATA); // Correct selector for getting shop data
   const { collectionId } = useParams();
 
   // Convert shopData object to an array and find the category based on collectionId
@@ -16,20 +19,19 @@ const CollectionPage = () => {
   );
 
   if (!category) {
-    return <h2 className='title'>Category Not Found</h2>;
+    return <h2 className="title">Category Not Found</h2>;
   }
 
   return (
-    <div className='collection-page'>
-      <h2 className='title'>{category.title}</h2>
-      <div className="items">
+    <CollectionPageContainer>
+      <TitleContainer>{category.title}</TitleContainer>
+      <ItemsContainer>
         {category.items.map((item) => (
           <CollectionItem key={item.id} item={item} />
         ))}
-      </div>
-    </div>
+      </ItemsContainer>
+    </CollectionPageContainer>
   );
 };
 
 export default CollectionPage;
- 

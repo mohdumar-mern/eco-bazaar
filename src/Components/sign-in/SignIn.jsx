@@ -1,9 +1,15 @@
 import { useState } from "react";
+
 import { auth, googleProvider, fireStore } from "../../firebase/fireBase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  ButtonContainer,
+  SignInContainer,
+  TitleHeading,
+  TitleText,
+} from "./SignInStyled";
 
-import "./SignIn.scss";
 import Input from "../form input/Input";
 import Button from "../custom button/Button";
 
@@ -36,12 +42,12 @@ const SignIn = () => {
           email: user.email,
           createdAt: new Date(),
         });
-        console.log("New user added to Firestore:", user);
+        alert("New user added to Firestore:", user);
       } else {
-        console.log("User already exists in Firestore:", userSnap.data());
+       alert("User already exists in Firestore:", userSnap.data());
       }
     } catch (error) {
-      console.error("Error signing in with Google:", error.message);
+      alert("Error signing in with Google:", error.message);
     }
   };
 
@@ -60,31 +66,35 @@ const SignIn = () => {
     }
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const { user } = userCredential;
-      // console.log("User signed in:", user);
+      alert("User signed in:", user);
 
       // Reference to Firestore user document
       const userRef = doc(fireStore, "users", user.uid);
       const userSnap = await getDoc(userRef);
 
       if (userSnap.exists()) {
-        console.log("User data retrieved from Firestore:", userSnap.data());
+        alert("User data retrieved from Firestore:", userSnap.data());
       } else {
-        console.log("No user data found in Firestore.");
+        // console.log("No user data found in Firestore.");
       }
 
       // Reset form after successful login
       setFormData({ email: "", password: "" });
     } catch (error) {
-      console.error("Error signing in:", error.message);
+      alert("Error signing in:", error.message);
     }
   };
 
   return (
-    <div className="sign-in">
-      <h2 className="text-3xl font-bold">I already have an account</h2>
-      <span className="text-md title">Sign in with email and password</span>
+    <SignInContainer>
+      <TitleHeading>I already have an account</TitleHeading>
+      <TitleText>Sign in with email and password</TitleText>
 
       <form onSubmit={onSubmitHandler}>
         <Input
@@ -103,14 +113,14 @@ const SignIn = () => {
           required
           handleChange={handleChange}
         />
-        <div className="buttons">
+        <ButtonContainer>
           <Button type="submit">Sign In</Button>
           <Button type="button" onClick={googleSignInHandler} isGoogleSignIn>
             Sign In with Google
           </Button>
-        </div>
+        </ButtonContainer>
       </form>
-    </div>
+    </SignInContainer>
   );
 };
 

@@ -1,43 +1,44 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
-import { useSelector} from 'react-redux'
-import { auth } from '../../firebase/fireBase'
-import CartIcon from '../cart-icon/CartIcon'
-import CartDropdown from '../cart-dropdown/CartDropdown'
-import logo from "../../assets/logo.png"
+import { useSelector } from "react-redux";
 
-import { selectCurrentUser } from '../../features/user/UserSlice'
-import { showCart } from '../../features/cart/CartSlice'
-import './Header.scss'
+import { auth } from "../../firebase/fireBase";
+import { selectCurrentUser } from "../../features/user/UserSlice";
+import { showCart } from "../../features/cart/CartSlice";
+
+import CartIcon from "../cart-icon/CartIcon";
+import CartDropdown from "../cart-dropdown/CartDropdown";
+import logo from "../../assets/logo.png";
+
+import {
+  HeaderContainer,
+  ImageContainer,
+  LogoContainer,
+  OptionDiv,
+  OptionLink,
+  OptionsContainer,
+} from "./HeaderStyled";
 const Header = () => {
-  const currentUser = useSelector(selectCurrentUser)
-  const show = useSelector(showCart)
- 
+  const currentUser = useSelector(selectCurrentUser);
+  const show = useSelector(showCart);
+
   return (
-    <div className='header '>
-      <Link className="logo-container  " to={'/'}>
-        {/* <h2 className={`text-3xl  font-bold text-shadow  text-shadow`} >ECO BAZAAR</h2>
-         */}
-         <img src={logo} alt="ECO BAZAAR" title='Eco Bazaar' />
-      </Link>
+    <HeaderContainer>
+      <LogoContainer to={"/"}>
+        <ImageContainer src={logo} alt="ECO BAZAAR" title="Eco Bazaar" />
+      </LogoContainer>
 
-      <div className="options">
-        <Link className='option' to='/shop'>SHOP</Link>
-        <Link className='option' to='/contact'>CONTACT</Link>
-        {
-          currentUser ?
-          <div className='option cursor-pointer' onClick={() => auth.signOut()}>SIGN OUT</div>
-          :
-          <Link className='option' to='/signin'>SIGN IN</Link>
-        }
+      <OptionsContainer>
+        <OptionLink to="/shop">SHOP</OptionLink>
+        <OptionLink to="/contact">CONTACT</OptionLink>
+        {currentUser ? (
+          <OptionDiv onClick={() => auth.signOut()}>SIGN OUT</OptionDiv>
+        ) : (
+          <OptionLink to="/signin">SIGN IN</OptionLink>
+        )}
         <CartIcon />
-      </div>
-      {
-        show &&   <CartDropdown />
-      }
-     
-    </div>
-  )
-}
+      </OptionsContainer>
+      {show && <CartDropdown />}
+    </HeaderContainer>
+  );
+};
 
-export default Header
+export default Header;

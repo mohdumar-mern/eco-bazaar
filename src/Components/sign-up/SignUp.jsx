@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { auth, fireStore } from "../../firebase/fireBase";
 import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { SignUpContainer, TitleHeading, TitleText } from "./SignUpStyled";
 
 import Input from "../form input/Input";
 import Button from "../custom button/Button";
-
-import "./SignUp.scss";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -47,7 +46,7 @@ const SignUp = () => {
         createdAt: new Date(),
       });
 
-      console.log("User created and stored in Firestore:", user);
+      alert("User created and stored in Firestore:", user);
 
       // Reset form
       setFormData({ displayName: "", email: "", password: "", confirmPassword: "" });
@@ -58,10 +57,10 @@ const SignUp = () => {
   };
 
   return (
-    <div className="sign-up">
-      <h2 className="text-3xl font-bold">I do not have an account</h2>
-      <span className="title text-md">Sign Up with your email and password</span>
-      <form className="sign-up-form" onSubmit={onSubmitHandler}>
+    <SignUpContainer>
+      <TitleHeading>I do not have an account</TitleHeading>
+      <TitleText>Sign Up with your email and password</TitleText>
+      <form  onSubmit={onSubmitHandler}>
         <Input
           type="text"
           name="displayName"
@@ -96,7 +95,7 @@ const SignUp = () => {
         />
         <Button type="submit">SIGN UP</Button>
       </form>
-    </div>
+    </SignUpContainer>
   );
 };
 

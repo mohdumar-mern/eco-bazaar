@@ -14,8 +14,6 @@ import { auth, fireStore } from "./firebase/fireBase";
 import { doc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
-import "./App.scss";
-
 function App() {
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
@@ -43,12 +41,12 @@ function App() {
             dispatch(setCurrentUser(userData));
           }
         } else {
-          console.log("User does not exist in Firestore.");
+          // console.log("User does not exist in Firestore.");
           dispatch(setCurrentUser(null));
         }
       } else {
         dispatch(setCurrentUser(null));
-        console.log("No user signed in.");
+        // console.log("No user signed in.");
       }
     },
     [dispatch, currentUser] // Avoid redundant dispatches if currentUser is unchanged
@@ -63,11 +61,11 @@ function App() {
     <Router>
       <Header />
       <Routes>
-        <Route path="/" element={<HomePage />} />
         
-        {/* ✅ Nested Routing for ShopPage */}
-        <Route path="/shop/*" element={<ShopPage />}>
-        </Route>
+       <Route path="/" element={<HomePage />} />
+        
+        <Route path="/shop/*" element={<ShopPage />} />
+      
 
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route 

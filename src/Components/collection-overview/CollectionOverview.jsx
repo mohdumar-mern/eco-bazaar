@@ -1,8 +1,8 @@
-import { useSelector } from 'react-redux';
-import { SHOP_DATA } from '../../features/shop/ShopSlice';
+import { useSelector } from "react-redux";
 
-import './CollectionOverview.scss';
-import PreviewCollection from '../preview-collection/PreviewCollection';
+import { SHOP_DATA } from "../../features/shop/ShopSlice";
+import PreviewCollection from "../preview-collection/PreviewCollection";
+import { CollectionOverviewContainer } from "./CollectionOverviewStyled";
 
 const CollectionOverview = () => {
   // Use useSelector to pull shopData from the state
@@ -10,11 +10,11 @@ const CollectionOverview = () => {
 
   // Ensure collections is an object and map over its values (categories)
   return (
-    <div className="collection-overview">
+    <CollectionOverviewContainer>
       {Object.values(collections).map(({ id, ...otherCollectionProps }) => (
         <PreviewCollection key={id} {...otherCollectionProps} />
       ))}
-    </div>
+    </CollectionOverviewContainer>
   );
 };
 

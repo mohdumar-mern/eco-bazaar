@@ -1,11 +1,15 @@
 import React, { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import Button from "../custom button/Button";
+
 import CartItem from "../cart-item/CartItem";
 import { totalCartItems, hideCart } from "../../features/cart/CartSlice";
-
-import "./CartDropdown.scss";
+import {
+  ButtonContainer,
+  CartDropdownContainer,
+  CartItemsContainer,
+  EmptyMessageContainer,
+} from "./CartDropdownStyled";
 
 const CartDropdown = () => {
   const dispatch = useDispatch();
@@ -28,16 +32,18 @@ const CartDropdown = () => {
   };
 
   return (
-    <div className="cart-dropdown">
-      <div className="cart-items">
+    <CartDropdownContainer>
+      <CartItemsContainer>
         {cartItems.length > 0 ? (
           renderedCartItems
         ) : (
-          <span className="empty-message">Your cart is empty</span>
+          <EmptyMessageContainer>Your cart is empty</EmptyMessageContainer>
         )}
-      </div>
-      <Button onClick={handleCheckoutClick}>GO TO CHECKOUT</Button>
-    </div>
+      </CartItemsContainer>
+      <ButtonContainer onClick={handleCheckoutClick}>
+        GO TO CHECKOUT
+      </ButtonContainer>
+    </CartDropdownContainer>
   );
 };
 

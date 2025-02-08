@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import CollectionOverview from "../../Components/collection-overview/CollectionOverview";
 import CollectionPage from "../collection/CollectionPage";
 
-import "./ShopPage.scss";
 
 const ShopPage = () => {
   return (
