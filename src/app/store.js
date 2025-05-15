@@ -15,6 +15,8 @@ const persistConfig = {
   whitelist: ["cart"], // Only persist the 'cart' reducer
 };
 
+const DEVELOPMENTMODE = import.meta.env.MODE === "development";
+
 // Combine reducers
 const rootReducer = combineReducers({
   user: userReducer,  // User reducer (NOT persisted)
@@ -33,7 +35,7 @@ const store = configureStore({
     const middlewares = getDefaultMiddleware({ serializableCheck: false });
     
     // Conditionally add logger middleware based on the environment
-    if (import.meta.env.MODE === "development") {
+    if (DEVELOPMENTMODE) {
       middlewares.push(logger);
     }
 

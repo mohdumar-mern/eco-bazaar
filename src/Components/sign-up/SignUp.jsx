@@ -2,6 +2,7 @@ import { useState } from "react";
 import { auth, fireStore } from "../../firebase/fireBase";
 import { doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+
 import { SignUpContainer, TitleHeading, TitleText } from "./SignUpStyled";
 
 import Input from "../form input/Input";

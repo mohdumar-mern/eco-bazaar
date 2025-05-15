@@ -13,6 +13,7 @@ import { setCurrentUser, selectCurrentUser } from "./features/user/UserSlice";
 import { auth, fireStore } from "./firebase/fireBase";
 import { doc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
+import Contact from "./pages/contact-page/Contact";
 
 function App() {
   const dispatch = useDispatch();
@@ -68,6 +69,7 @@ function App() {
       
 
         <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/contact" element={<Contact />} />
         <Route 
           path="/signin" 
           element={currentUser ? <Navigate to="/" replace /> : <SignUpAndSignIn />} 
